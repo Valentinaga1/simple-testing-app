@@ -1,8 +1,10 @@
+
+import { AccessCredentials, PlutonicationDAppClient } from '@plutonication/plutonication';
 import React, { useEffect, useRef, useState } from 'react';
-import { PlutonicationDAppClient, AccessCredentials, PlutonicationQrPopUp } from '@plutonication/plutonication';
+import { Link, Routes } from 'react-router-dom';
 
 
-function App() {
+function Home() {
   const [uriAccesCred, setUriAccesCred] = useState("");
   const [isWalletConnected, setIsWalletConnected] = useState(false);
   const [pubKey, setPubkey] = useState("");
@@ -118,11 +120,15 @@ function App() {
             <h4 className="welcome__QR-headaer">Welcome to Plutonication</h4>
             <div className={"welcome__btn-container"}>
               <button className="welcome__btn" onClick={() => isWalletConnected ? disconnect() : initializeDapp()}>
-                {isWalletConnected ? "Disconnect" : "Connect"}
+                {isWalletConnected ? "Disconnect" : "Start"}
               </button>
               {" "}
               <button className="welcome__btn" onClick={() => setIsPopUOpen(true)}>
-                {"Connection through QR"}
+              <Link to="/qr-access">
+                <button variant="outlined">
+                  {"Connection through QR"}
+                </button>
+              </Link>
               </button>
             </div>
             {pubKey && <p className="welcome__QR-text-connected">Connected to {pubKey}, transaction signed and sent</p>}
@@ -149,17 +155,15 @@ function App() {
                       onChange={handleChange}
                     />
                   </div>
-                  <button type="submit">{isLoading ? "...." : "Connectand send"  }</button>
+                  <button type="submit">{isLoading ? "...." : "Connect and send"  }</button>
                 </form>
               </>
             )}
           </>
         )}
-        {isPopUOpen && (
-          <PlutonicationQrPopUp />
-        )}
+
       </main>
     </div>
   );
 };
-export default App;
+export default Home;
